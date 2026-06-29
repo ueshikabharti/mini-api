@@ -1,54 +1,7 @@
-<!--meghakumariclg98@gmail-->
+<!--meghakumariclg98@gmail.com-->
 
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-$message = "";
-$tips = [];
-
-try {
-    // Greeting API
-    if (isset($_GET['name']) && !empty($_GET['name'])) {
-
-        $name = urlencode($_GET['name']);
-
-        $response = file_get_contents("http://localhost/mini-api/api/greet.php?name=$name");
-
-        if ($response === false) {
-            throw new Exception("Unable to connect to Greeting API.");
-        }
-
-        $data = json_decode($response, true);
-
-        if (!$data) {
-            throw new Exception("Invalid JSON received.");
-        }
-
-        $message = htmlspecialchars($data['message']);
-    }
-
-    // Study Tips API
-    if (isset($_GET['showtips'])) {
-
-        $response = file_get_contents("http://localhost/mini-api/api/list.php");
-
-        if ($response === false) {
-            throw new Exception("Unable to connect to Study Tips API.");
-        }
-
-        $data = json_decode($response, true);
-
-        if (!$data) {
-            throw new Exception("Invalid JSON received.");
-        }
-
-        $tips = $data['tips'];
-    }
-
-} catch (Exception $e) {
-    $message = "Error: " . htmlspecialchars($e->getMessage());
-}
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -64,59 +17,69 @@ try {
 
 <h1>📚 Study Tips Mini API</h1>
 
-<form method="GET">
+<!-- LOGIN SECTION -->
+<?php if (!isset($_SESSION['user'])) { ?>
 
-<label>Enter Your Name:</label><br><br>
+    <h3>🔐 Login Page</h3>
 
-<input
-type="text"
-name="name"
-placeholder="Enter your name"
-required>
+    <form method="POST" action="handler.php">
 
-<br><br>
+        <input type="text" name="username" placeholder="Username" required>
+        <br><br>
 
-<button type="submit">
-Get Greeting
-</button>
+        <input type="password" name="password" placeholder="Password" required>
+        <br><br>
 
-</form>
+        <button type="submit">Login</button>
 
-<br>
+    </form>
 
-<form method="GET">
+<?php } else { ?>
 
-<button
-type="submit"
-name="showtips"
-value="1">
+    <p>👋 Welcome, <?php echo $_SESSION['user']; ?></p>
 
-Show Study Tips
+    <form method="POST" action="logout.php">
+        <button type="submit">Logout</button>
+    </form>
 
-</button>
+<?php } ?>
 
-</form>
+<hr>
 
-<?php
-if($message!=""){
-    echo "<h2>$message</h2>";
-}
-?>
+<!-- API BUTTON -->
+<button type="button" id="apiBtn">📚 Load Study Tips</button>
 
-<?php
-if(!empty($tips)){
-    echo "<h3>Study Tips</h3>";
-    echo "<ul>";
-
-    foreach($tips as $tip){
-        echo "<li>".htmlspecialchars($tip)."</li>";
-    }
-
-    echo "</ul>";
-}
-?>
+<!-- OUTPUT -->
+<div id="result"></div>
 
 </div>
+
+<!-- JS FETCH API -->
+<script>
+document.getElementById("apiBtn").addEventListener("click", function () {
+
+    fetch("api/list.php")
+        .then(response => response.json())
+        .then(data => {
+
+            let output = "<h3>Study Tips</h3><ul>";
+
+            data.tips.forEach(function(tip) {
+                output += "<li>" + tip + "</li>";
+            });
+
+            output += "</ul>";
+
+            document.getElementById("result").innerHTML = output;
+
+        })
+        .catch(error => {
+            document.getElementById("result").innerHTML =
+                "❌ Error loading API";
+        });
+
+});
+</script>
 
 </body>
 </html>
