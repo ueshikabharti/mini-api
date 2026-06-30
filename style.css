@@ -6,7 +6,8 @@
 
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #57215d,rgb(57, 11, 57) #060006);
+    background: linear-gradient(20deg,#621a4f,#6d365c,#da76bf);
+    animation: gradientMove 15s ease infinite;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,11 +16,12 @@ body{
 
 .container{
     width: 500px;
-    background: white;
+    background: whitesmoke;
     padding: 35px;
     border-radius: 15px;
-    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 120px rgb(35, 33, 33);
     text-align: center;
+    transition:all 0.4s ease;
 }
 
 h1{
@@ -57,14 +59,15 @@ input{
 
 input:focus{
     border-color: #dd55bd;
-    box-shadow: 0 0 8px rgba(52,152,219,0.3);
+    box-shadow: 0 0 12px rgba(52,152,219,0.3);
+    transform: scale(1.03);
 }
 
 button{
-    background: #dd55bd;
+    background: #973d82;
     color: white;
     border: none;
-    padding: 12px 25px;
+    padding: 12px 20px;
     font-size: 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -73,8 +76,8 @@ button{
 }
 
 button:hover{
-    background: #4f0948;
-    transform: translateY(-2px);
+    background: #511c4c;
+    transform: translateY(-3px) scale(1.08);
 }
 
 ul{
@@ -94,7 +97,8 @@ li{
 
 li:hover{
     background: #eaf4ff;
-    transform: translateX(5px);
+    transform: translateX(8px);
+    box-shadow:0 8px 15px rgb(59, 40, 56);
 }
 
 @media(max-width:600px){
@@ -111,119 +115,5 @@ h1{
 button{
     width:100%;
 }
-
-}*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(20deg,rgb(38, 9, 38), #823d8a );
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.container{
-    width: 500px;
-    background: white;
-    padding: 35px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-align: center;
-}
-
-h1{
-    color: #2c3e50;
-    margin-bottom: 25px;
-}
-
-h2{
-    color: black;
-    margin-top: 20px;
-    margin-bottom: 15px;
-}
-
-h3{
-    color: #34495e;
-    margin-top: 25px;
-    margin-bottom: 15px;
-}
-
-label{
-    font-size: 18px;
-    font-weight: bold;
-    color: #555;
-}
-
-input{
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    outline: none;
-    transition: 0.3s;
-}
-
-input:focus{
-    border-color: #c938a9;
-    box-shadow: 0 0 8px rgba(52,152,219,0.3);
-}
-
-button{
-    background: #963184;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 10px;
-}
-
-button:hover{
-    background: #4e044b;
-    transform: translateY(-2px);
-}
-
-ul{
-    list-style: none;
-    margin-top: 20px;
-}
-
-li{
-    background: #f8f9fa;
-    margin: 10px 0;
-    padding: 12px;
-    border-left: 5px solid #be49a7;
-    border-radius: 8px;
-    text-align: left;
-    transition: 0.3s;
-}
-
-li:hover{
-    background: #eaf4ff;
-    transform: translateX(5px);
-}
-
-@media(max-width:600px){
-
-.container{
-    width:90%;
-    padding:25px;
-}
-
-h1{
-    font-size:26px;
-}
-
-button{
-    width:100%;
-}
-
-}

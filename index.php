@@ -47,7 +47,7 @@ session_start();
 
     <input type="text" id="name" placeholder="Enter your name">
 
-    <button type="button" id="greetBtn">Get Greeting</button>
+    <button type="button" id="greetBtn">Get Greeting</button><br>
 
     <button type="button" id="apiBtn">Load Study Tips</button>
 
