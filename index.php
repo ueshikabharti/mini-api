@@ -24,10 +24,10 @@ session_start();
 
     <form method="POST" action="handler.php">
 
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="username" placeholder="Enter Your Username" required>
         <br><br>
 
-        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
         <br><br>
 
         <button type="submit">Login</button>
@@ -37,49 +37,73 @@ session_start();
 <?php } else { ?>
 
     <p>👋 Welcome, <?php echo $_SESSION['user']; ?></p>
+    <p>You are successfully logged in.</p>
 
     <form method="POST" action="logout.php">
         <button type="submit">Logout</button>
     </form>
 
+    <h3>Study Tips</h3>
+
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <button type="button" id="greetBtn">Get Greeting</button>
+
+    <button type="button" id="apiBtn">Load Study Tips</button>
+
+    <div id="greeting"></div>
+    <div id="result"></div>
+
+
 <?php } ?>
 
-<hr>
-
-<!-- API BUTTON -->
-<button type="button" id="apiBtn">📚 Load Study Tips</button>
-
-<!-- OUTPUT -->
-<div id="result"></div>
-
-</div>
 
 <!-- JS FETCH API -->
 <script>
-document.getElementById("apiBtn").addEventListener("click", function () {
+    // Greeting API
+document.getElementById("greetBtn").addEventListener("click", function () {
 
-    fetch("api/list.php")
+let name = document.getElementById("name").value;
+if (name.trim() === ""){
+ document.getElementById("greeting").innerHTML = "Please enter your name.";
+ return;
+} 
+
+    fetch("api/greet.php?name=" + encodeURIComponent(name))
         .then(response => response.json())
         .then(data => {
 
-            let output = "<h3>Study Tips</h3><ul>";
-
-            data.tips.forEach(function(tip) {
-                output += "<li>" + tip + "</li>";
-            });
-
-            output += "</ul>";
-
-            document.getElementById("result").innerHTML = output;
+            document.getElementById("greeting").innerHTML =
+            "<h3>" + data.message + "</h3>";
 
         })
         .catch(error => {
-            document.getElementById("result").innerHTML =
-                "❌ Error loading API";
+            document.getElementById("greeting").innerHTML =
+                "❌ Error loading greeting.";
         });
+});
+// Study Tips API
+document.getElementById("apiBtn").addEventListener("click", function () {
 
+fetch("api/list.php")
+        .then(response => response.json())
+        .then(data => {
+
+             let output = "<h3>Study Tips</h3><ul>";
+             data.tips.forEach(function (tip) {
+                output += "<li>" + tip + "</li>";
+             });
+output += "</ul>";
+
+document.getElementById("result").innerHTML = output;
+        })
+.catch(error => {
+document.getElementById("result").innerHTML =
+"❌ Error loading study tips.";
+        });
 });
 </script>
 
 </body>
 </html>
+
